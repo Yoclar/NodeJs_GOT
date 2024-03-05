@@ -1,0 +1,11 @@
+include header.pug
+h1.text-center.my-4 Game of Thrones Characters
+    .container
+      .row
+        each character in characters
+          .col-md-4.mb-4
+            .card
+                .card-body
+                    h5.card-title= character.name
+                    p.card-text House: #{character.house}
+                    a.btn.btn-primary(href=`/show/${character.id}`) View Details
