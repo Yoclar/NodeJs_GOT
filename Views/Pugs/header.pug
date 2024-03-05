@@ -16,9 +16,11 @@ html(lang="en")
             span.navbar-toggler-icon
           #navbarNav.collapse.navbar-collapse
             ul.navbar-nav
-              li.nav-item
-                a.nav-link.active(href="#") Home
-              li.nav-item
-                a.nav-link(href="#") About
-              li.nav-item
-                a.nav-link(href="#") Contact
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false") Menu
+                ul.dropdown-menu(aria-labelledby="navbarDropdown")
+                  li
+                    a.dropdown-item(href="#") Create
+                  li
+                    a.dropdown-item(href="#") Delete
+               
