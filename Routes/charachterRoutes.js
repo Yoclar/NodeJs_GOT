@@ -8,6 +8,19 @@ const characters = [
     { id: 3, name: 'Daenerys Targaryen', house: 'Targaryen' }
   ];
 
+
+/*   const { getCharacters } = require('./database'); 
+
+router.get('/index', async (req, res) => {
+    try {
+        const characters = await getCharacters(); 
+        res.render('index', { characters }); 
+    } catch (error) {
+        console.error("Error fetching characters:", error);
+        res.status(500).send("Error fetching characters");
+    }
+});
+ */
 router.get('/index', (req, res) => {
     res.render('index', {characters});
 
@@ -24,7 +37,7 @@ router.post('/create', (req, res) => {
 
 router.use('/update/:id', (req, res, next) => {
     const character = characters.find(c => c.id === parseInt(req.params.id));
-  if (!character) return res.status(404).send('Karakter nem található');
+  if (!character) return res.status(404).send('Character not found');
   res.render('update', { character });
 });
 

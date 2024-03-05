@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const CharachterRoutes = require('./Routes/charachterRoutes');
-const header = require('./Routes/indexRoutes');
+const welcome = require('./Routes/welcomeRoute');
 const body_parser = require('body-parser');
 const multer = require('multer');
 
@@ -14,7 +14,7 @@ app.use(express.static(path.join('Public')));
 app.use(express.static('node_modules/bootstrap/dist/css'))
 app.use(express.static('node_modules/bootstrap/dist/js'))
 
-app.use(header);
+app.use(welcome);
 app.use('/character', CharachterRoutes);
 app.use((req,res,next) => {
     res.send('<html><body><h1>Page not found</h1></body></html>');
