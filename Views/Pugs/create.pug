@@ -1,0 +1,15 @@
+include header.pug
+.container
+      h2.mt-5 Add a New Game of Thrones Character
+      form(action="/add-character", method="POST")
+        .form-group
+          label(for="name") Character Name
+          input#name.form-control(type="text", name="name", required=true)
+        .form-group
+          label(for="house") House
+          input#house.form-control(type="text", name="house", required=true)
+        .form-group
+          label(for="description") Short Description
+          textarea#description.form-control(name="description", rows="3", required=true)
+          br
+        button.btn.btn-primary(type="submit") Submit

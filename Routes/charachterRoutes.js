@@ -38,8 +38,8 @@ router.post('/delete/:id', (req, res, next) => {
     res.redirect('/');
 });
 router.get('/show/:id', (req, res, next) => {
-    const character = characters.find(c => c.id === parseInt(req.params.id));
-  if (!character) return res.status(404).send('Karakter nem található');
+    const character = characters.find(x => x.id === parseInt(req.params.id));
+  if (!character) return res.status(404).send('Character not found');
   res.render('show', { character });
 })
 module.exports = router;
