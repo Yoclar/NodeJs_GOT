@@ -15,7 +15,9 @@ async function testingDb() {
         "id": 1,
         "name": "Cersei Lannister",
         "house": "Lannister",
-      };
+        "attack" : 25,
+        "defense": 12
+      }
   
       
       
@@ -24,20 +26,24 @@ async function testingDb() {
           "id" : 2,
           "name" : "Arya Stark",
           "house" : "Stark",
+          "attack": 23,
+          "defense": 18
       };
   
       let character_3 = {
           "id" : 3,
           "name" : "Jaime Lannister",
           "house" : "Lannister",
+          "attack" : 20,
+          "defense": 15
 
       };
   
       // Create exactly ONE document
       await createDoc (client, dbName, "Characters", character_2);
       await createDoc (client, dbName, "Characters", character_3);
-      await createDoc(client, dbName, "Characters", character_1); 
-      await getCharacters();
+      await createDoc(client, dbName, "Characters", character_1);  
+ 
   
   
 
@@ -69,24 +75,42 @@ async function createDoc(client, dbName, collectionName, doc)
 async function getCharacters() {
     const db = await connectToDb();
     const collection = db.collection('Characters');
-    return await collection.find({}).toArray(); // Fetch all characters
+    return await collection.find({}).toArray(); 
 }
 
 async function insertCharacter(character) {
     const db = await connectToDb();
     const collection = db.collection('Characters');
+    const lastCharacter = await collection.find().sort({id: -1}).limit(1).toArray();
+    const lastId = lastCharacter.length > 0 ? lastCharacter[0].id : 0;
+    character.id = lastId + 1;
     await collection.insertOne(character);
+
 }
 async function connectToDb() {
     await client.connect();
-    console.log("Connected successfully to MongoDB");
-    return client.db(dbName); // return the database instance
+    return client.db(dbName); 
 }
 
-testingDb();
+async function getCharactersById(id) {
+      const db = await connectToDb();
+      const collection = db.collection('Characters');
+      const character = await collection.findOne({ id: parseInt(id) });
+      return character;
+  }
+
+  async function deleteCharacterById(id) {
+    const db = await connectToDb();
+    const collection = db.collection('Characters');
+    await collection.deleteOne({ id: parseInt(id) });
+  }
+/* testingDb();   */
 
 module.exports = {
     getCharacters,
     insertCharacter,
-    connectToDb
+    connectToDb,
+    getCharactersById,
+    deleteCharacterById
+
 };
