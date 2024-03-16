@@ -1,23 +1,76 @@
-include header.pug 
+include header.pug
 
-h1.text-center.my-4 Game of Thrones Characters
+body(style="background-color: gray;")
+  h1.text-center.my-4 Game of Thrones Characters
 
-.container.mt-4
-  .row
-    .col-md-6
-      select.form-select.mb-3
-        each character in characters
-          option(value=`${character.id}`)= character.name
+  .container.mt-4
+    .row
+      .col-md-6
+        select.form-select.mb-3#select1
+          option(value="") Select a character
+          each character in characters
+            option(value=character.id)= character.name
 
- 
-    .col-md-6
-      select.form-select.mb-3
-        each character in characters
-          option(value=`${character.id}`)= character.name
+      .col-md-6
+        select.form-select.mb-3#select2
+          option(value="") Select a character
+          each character in characters
+            option(value=character.id)= character.name
 
+  .row.mt-3
+    .col-12.text-center
+      button.btn.btn-primary(type="button" id="fight-button") Fight
 
-.row.mt-3
-  .col-12.text-center
-    button.btn.btn-primary(type="button") Fight
+script.
+  var characters = !{JSON.stringify(characters)};
+  console.log(characters);
+  $(document).ready(function() {
+    $('#select1').change(function() {
+      var selectedOption = $(this).val();
+      $('#select2 option').prop('disabled', false);
+      if (selectedOption) {
+        $('#select2 option[value="' + selectedOption + '"]').prop('disabled', true);
+      }
+    });
 
+    $('#select2').change(function() {
+      var selectedOption = $(this).val();
+      $('#select1 option').prop('disabled', false);
+      if (selectedOption) {
+        $('#select1 option[value="' + selectedOption + '"]').prop('disabled', true);
+      }
+    });
 
+    $('#fight-button').click(function() {
+      var character1Id = $('#select1').val();
+      var character2Id = $('#select2').val();
+
+      if (character1Id && character2Id) {
+        var character1Stats = getCharacterStats(character1Id);
+        var character2Stats = getCharacterStats(character2Id);
+        console.log(character1Id);
+        // Calculate winner based on the retrieved stats
+        var winner;
+        if ((character1Stats.attack - character2Stats.defense) > (character2Stats.attack - character1Stats.defense)) {
+          winner = character1Stats.name;
+        } else {
+          winner = character2Stats.name;
+        }
+
+        // Display the winner
+        alert("The winner is: " + winner);
+      } else {
+        alert("Please select two characters to fight.");
+      }
+    });
+
+    // Function to retrieve character stats by ID
+    function getCharacterStats(characterId) {
+      for (var i = 0; i < characters.length; i++) {
+        if (characters[i].id === parseInt(characterId)) {
+          return characters[i];
+        }
+      }
+      return null; // Character not found
+    }
+  });

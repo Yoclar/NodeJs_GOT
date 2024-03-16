@@ -104,13 +104,23 @@ async function getCharactersById(id) {
     const collection = db.collection('Characters');
     await collection.deleteOne({ id: parseInt(id) });
   }
-/* testingDb();   */
+
+  async function fetchCharacterStats(characterId) {
+    const response = await fetch(`/characters/${characterId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch character stats');
+    }
+    return await response.json();
+  }
+/*  testingDb();   */ 
 
 module.exports = {
     getCharacters,
     insertCharacter,
     connectToDb,
     getCharactersById,
-    deleteCharacterById
+    deleteCharacterById,
+    fetchCharacterStats
+ 
 
 };
