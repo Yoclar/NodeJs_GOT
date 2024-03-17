@@ -49,7 +49,7 @@ script.
         var character1Stats = getCharacterStats(character1Id);
         var character2Stats = getCharacterStats(character2Id);
         console.log(character1Id);
-        // Calculate winner based on the retrieved stats
+      
         var winner;
         if ((character1Stats.attack - character2Stats.defense) > (character2Stats.attack - character1Stats.defense)) {
           winner = character1Stats.name;
@@ -57,20 +57,20 @@ script.
           winner = character2Stats.name;
         }
 
-        // Display the winner
+       
         alert("The winner is: " + winner);
       } else {
         alert("Please select two characters to fight.");
       }
     });
 
-    // Function to retrieve character stats by ID
+   
     function getCharacterStats(characterId) {
       for (var i = 0; i < characters.length; i++) {
         if (characters[i].id === parseInt(characterId)) {
           return characters[i];
         }
       }
-      return null; // Character not found
+      return null; 
     }
   });
